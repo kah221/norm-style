@@ -1,0 +1,127 @@
+import { createRequire } from 'module';
+
+createRequire(import.meta.url);
+
+// node_modules/@quartz-community/utils/dist/lang.js
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+// src/components/styles/normDashboard.scss
+var normDashboard_default = ".norm-dashboard {\n  margin-bottom: 2rem;\n}\n.norm-dashboard h2,\n.norm-dashboard h3 {\n  margin-top: 1.5rem;\n}\n.norm-dashboard .norm-summary-grid {\n  display: flex;\n  gap: 1rem;\n  margin: 1rem 0;\n}\n.norm-dashboard .norm-stat-card {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 1rem 1.5rem;\n  border: 1px solid var(--lightgray);\n  border-radius: 6px;\n  min-width: 100px;\n}\n.norm-dashboard .norm-stat-number {\n  font-size: 2rem;\n  font-weight: 700;\n  color: var(--secondary);\n}\n.norm-dashboard .norm-stat-label {\n  font-size: 0.85rem;\n  color: var(--darkgray);\n}\n.norm-dashboard .norm-field-list {\n  list-style: none;\n  padding: 0;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n.norm-dashboard .norm-field-list li {\n  display: flex;\n  justify-content: space-between;\n  gap: 0.5rem;\n  padding: 0.3rem 0.8rem;\n  background: var(--lightgray);\n  border-radius: 4px;\n  min-width: 140px;\n}\n.norm-dashboard .norm-field-list .norm-field-count {\n  font-weight: 700;\n  color: var(--secondary);\n}\n.norm-dashboard .norm-chart-controls {\n  display: flex;\n  gap: 0.5rem;\n  margin: 0.5rem 0;\n}\n.norm-dashboard .norm-chart-controls button {\n  padding: 0.3rem 0.8rem;\n  border: 1px solid var(--lightgray);\n  border-radius: 4px;\n  background: transparent;\n  color: var(--dark);\n  cursor: pointer;\n}\n.norm-dashboard .norm-chart-controls button.active {\n  background: var(--secondary);\n  color: var(--light);\n}\n.norm-dashboard .norm-chart-bar {\n  fill: var(--secondary);\n}";
+
+// src/components/scripts/normDashboard.inline.ts
+var normDashboard_inline_default = 'function g(c,a){let r=new Map;for(let{date:e,count:n}of c){let i=new Date(e+"T00:00:00"),t;if(a==="day")t=e;else if(a==="month")t=e.slice(0,7);else if(a==="year")t=e.slice(0,4);else{let s=i.getDay(),o=(s===0?-6:1)-s,l=new Date(i);l.setDate(i.getDate()+o),t=l.toISOString().slice(0,10)}r.set(t,(r.get(t)??0)+n)}return Array.from(r.entries()).sort(([e],[n])=>e.localeCompare(n)).map(([e,n])=>({label:e,value:n}))}function y(c,a){let r=c.clientWidth||600,e=180,n=4,i=Math.max(3,Math.floor(r/Math.max(1,a.length))-n),t=Math.max(1,...a.map(l=>l.value)),s="http://www.w3.org/2000/svg",o=document.createElementNS(s,"svg");o.setAttribute("viewBox",`0 0 ${r} ${e}`),o.setAttribute("width","100%"),o.setAttribute("class","norm-chart-svg"),a.forEach((l,h)=>{let d=l.value/t*(e-4),m=document.createElementNS(s,"rect");m.setAttribute("x",String(h*(i+n))),m.setAttribute("y",String(e-d)),m.setAttribute("width",String(i)),m.setAttribute("height",String(d)),m.setAttribute("class","norm-chart-bar");let u=document.createElementNS(s,"title");u.textContent=`${l.label}\\uFF1A${l.value}`,m.appendChild(u),o.appendChild(m)}),c.innerHTML="",c.appendChild(o)}function p(){let c=document.getElementById("norm-stats-data"),a=document.getElementById("norm-chart-container");if(!c||!a)return;let r;try{r=JSON.parse(c.textContent||"{}")}catch{return}let e=r.timeline??[];function n(t){y(a,g(e,t))}let i=document.querySelectorAll(".norm-chart-controls button");i.forEach(t=>{let s=()=>{i.forEach(o=>o.classList.remove("active")),t.classList.add("active"),n(t.dataset.granularity??"day")};t.addEventListener("click",s),window.addCleanup(()=>t.removeEventListener("click",s))}),n("day")}document.addEventListener("nav",p);\n';
+var l;
+l = { __e: function(n2, l2, u3, t2) {
+  for (var i2, o2, r2; l2 = l2.__; ) if ((i2 = l2.__c) && !i2.__) try {
+    if ((o2 = i2.constructor) && null != o2.getDerivedStateFromError && (i2.setState(o2.getDerivedStateFromError(n2)), r2 = i2.__d), null != i2.componentDidCatch && (i2.componentDidCatch(n2, t2 || {}), r2 = i2.__d), r2) return i2.__E = i2;
+  } catch (l3) {
+    n2 = l3;
+  }
+  throw n2;
+} }, "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout;
+
+// node_modules/preact/jsx-runtime/dist/jsxRuntime.mjs
+var f2 = 0;
+function u2(e2, t2, n2, o2, i2, u3) {
+  t2 || (t2 = {});
+  var a2, c2, p2 = t2;
+  if ("ref" in p2) for (c2 in p2 = {}, t2) "ref" == c2 ? a2 = t2[c2] : p2[c2] = t2[c2];
+  var l2 = { type: e2, props: p2, key: n2, ref: a2, __k: null, __: null, __b: 0, __e: null, __c: null, constructor: void 0, __v: --f2, __i: -1, __u: 0, __source: i2, __self: u3 };
+  if ("function" == typeof e2 && (a2 = e2.defaultProps)) for (c2 in a2) void 0 === p2[c2] && (p2[c2] = a2[c2]);
+  return l.vnode && l.vnode(l2), l2;
+}
+
+// src/components/NormDashboard.tsx
+function toDateStr(d2) {
+  const y2 = d2.getFullYear();
+  const m2 = String(d2.getMonth() + 1).padStart(2, "0");
+  const day = String(d2.getDate()).padStart(2, "0");
+  return `${y2}-${m2}-${day}`;
+}
+var NormDashboard_default = ((opts) => {
+  const { className = "norm-dashboard" } = opts ?? {};
+  const Component = ({ allFiles }) => {
+    const wordFiles = allFiles.filter((f3) => f3.slug && /^_word\//i.test(f3.slug));
+    const personFiles = allFiles.filter((f3) => f3.slug && /^_name\//i.test(f3.slug));
+    const byField = {};
+    const byElement = {};
+    const timelineMap = {};
+    for (const f3 of wordFiles) {
+      const tags = f3.frontmatter?.tags ?? [];
+      for (const t2 of tags) {
+        const parts = t2.split("/");
+        if (parts[0] === "\u5206\u91CE" && parts[1]) {
+          byField[parts[1]] ??= { count: 0, sub: {} };
+          byField[parts[1]].count += 1;
+          if (parts[2]) {
+            byField[parts[1]].sub[parts[2]] = (byField[parts[1]].sub[parts[2]] ?? 0) + 1;
+          }
+        } else if (parts[0] === "\u8981\u7D20" && parts[1]) {
+          byElement[parts[1]] = (byElement[parts[1]] ?? 0) + 1;
+        }
+      }
+      const created = f3.dates?.created;
+      if (created) {
+        const key = toDateStr(new Date(created));
+        timelineMap[key] = (timelineMap[key] ?? 0) + 1;
+      }
+    }
+    const statsData = {
+      totalWords: wordFiles.length,
+      totalPersons: personFiles.length,
+      byField,
+      byElement,
+      timeline: Object.entries(timelineMap).sort(([a2], [b]) => a2.localeCompare(b)).map(([date, count]) => ({ date, count }))
+    };
+    const fieldEntries = Object.entries(byField).sort((a2, b) => b[1].count - a2[1].count);
+    const elementEntries = Object.entries(byElement).sort((a2, b) => b[1] - a2[1]);
+    return /* @__PURE__ */ u2("div", { class: classNames(className), children: [
+      /* @__PURE__ */ u2("h2", { children: "norm \u5168\u4F53\u50CF" }),
+      /* @__PURE__ */ u2("div", { class: "norm-summary-grid", children: [
+        /* @__PURE__ */ u2("div", { class: "norm-stat-card", children: [
+          /* @__PURE__ */ u2("span", { class: "norm-stat-number", children: wordFiles.length }),
+          /* @__PURE__ */ u2("span", { class: "norm-stat-label", children: "\u767B\u9332\u5358\u8A9E\u6570" })
+        ] }),
+        /* @__PURE__ */ u2("div", { class: "norm-stat-card", children: [
+          /* @__PURE__ */ u2("span", { class: "norm-stat-number", children: personFiles.length }),
+          /* @__PURE__ */ u2("span", { class: "norm-stat-label", children: "\u767B\u9332\u4EBA\u7269\u6570" })
+        ] })
+      ] }),
+      /* @__PURE__ */ u2("h3", { children: "\u5206\u91CE\u5225" }),
+      /* @__PURE__ */ u2("ul", { class: "norm-field-list", children: fieldEntries.map(([name, v2]) => /* @__PURE__ */ u2("li", { children: [
+        /* @__PURE__ */ u2("span", { class: "norm-field-name", children: name }),
+        /* @__PURE__ */ u2("span", { class: "norm-field-count", children: v2.count })
+      ] })) }),
+      /* @__PURE__ */ u2("h3", { children: "\u8981\u7D20\u5225" }),
+      /* @__PURE__ */ u2("ul", { class: "norm-field-list", children: elementEntries.map(([name, count]) => /* @__PURE__ */ u2("li", { children: [
+        /* @__PURE__ */ u2("span", { class: "norm-field-name", children: name }),
+        /* @__PURE__ */ u2("span", { class: "norm-field-count", children: count })
+      ] })) }),
+      /* @__PURE__ */ u2("h3", { children: "\u767B\u9332\u63A8\u79FB" }),
+      /* @__PURE__ */ u2("div", { class: "norm-chart-controls", children: [
+        /* @__PURE__ */ u2("button", { "data-granularity": "day", class: "active", children: "\u65E5\u5225" }),
+        /* @__PURE__ */ u2("button", { "data-granularity": "week", children: "\u9031\u5225" }),
+        /* @__PURE__ */ u2("button", { "data-granularity": "month", children: "\u6708\u5225" }),
+        /* @__PURE__ */ u2("button", { "data-granularity": "year", children: "\u5E74\u5225" })
+      ] }),
+      /* @__PURE__ */ u2("div", { id: "norm-chart-container", class: "norm-chart-container" }),
+      /* @__PURE__ */ u2(
+        "script",
+        {
+          type: "application/json",
+          id: "norm-stats-data",
+          dangerouslySetInnerHTML: { __html: JSON.stringify(statsData) }
+        }
+      )
+    ] });
+  };
+  Component.css = normDashboard_default;
+  Component.afterDOMLoaded = normDashboard_inline_default;
+  return Component;
+});
+
+export { NormDashboard_default as NormDashboard };
+//# sourceMappingURL=index.js.map
+//# sourceMappingURL=index.js.map

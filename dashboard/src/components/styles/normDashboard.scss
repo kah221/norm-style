@@ -1,0 +1,82 @@
+.norm-dashboard {
+  margin-bottom: 2rem;
+
+  h2,
+  h3 {
+    margin-top: 1.5rem;
+  }
+
+  .norm-summary-grid {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+
+  .norm-stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--lightgray);
+    border-radius: 6px;
+    min-width: 100px;
+  }
+
+  .norm-stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--secondary);
+  }
+
+  .norm-stat-label {
+    font-size: 0.85rem;
+    color: var(--darkgray);
+  }
+
+  .norm-field-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.3rem 0.8rem;
+      background: var(--lightgray);
+      border-radius: 4px;
+      min-width: 140px;
+    }
+
+    .norm-field-count {
+      font-weight: 700;
+      color: var(--secondary);
+    }
+  }
+
+  .norm-chart-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+
+    button {
+      padding: 0.3rem 0.8rem;
+      border: 1px solid var(--lightgray);
+      border-radius: 4px;
+      background: transparent;
+      color: var(--dark);
+      cursor: pointer;
+
+      &.active {
+        background: var(--secondary);
+        color: var(--light);
+      }
+    }
+  }
+
+  .norm-chart-bar {
+    fill: var(--secondary);
+  }
+}
