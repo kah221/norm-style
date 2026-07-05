@@ -126,24 +126,77 @@
   flex-direction: column;
   gap: 0.5rem;
 
+  li.norm-recent-hidden {
+    display: none;
+  }
+
   a {
     display: block;
-    padding: 0.5rem 0.8rem;
-    background: var(--lightgray);
+    padding: 0.6rem 0.9rem;
+    background: var(--light);
+    border: 1px solid var(--lightgray);
     border-radius: 4px;
     text-decoration: none;
     color: inherit;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: var(--lightgray);
+    }
+
+    &:hover .norm-recent-definition {
+      color: var(--dark);
+    }
+  }
+
+  .norm-recent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .norm-recent-names {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .norm-recent-jp {
+    color: var(--secondary);
+    font-weight: 700;
+  }
+
+  .norm-recent-en {
+    font-size: 0.75rem;
+    color: var(--gray);
   }
 
   .norm-recent-time {
     font-size: 0.8rem;
     color: var(--darkgray);
-    margin-left: 0.5rem;
+    white-space: nowrap;
   }
 
   .norm-recent-definition {
-    margin: 0.3rem 0 0;
+    margin: 0.4rem 0 0;
     font-size: 0.85rem;
     color: var(--darkgray);
+    text-indent: 1em;
+    transition: color 0.15s ease;
+  }
+}
+
+.norm-recent-more-button {
+  display: block;
+  margin: 0.8rem auto 0;
+  padding: 0.4rem 1.2rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--dark);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--lightgray);
   }
 }

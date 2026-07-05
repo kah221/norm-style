@@ -97,17 +97,16 @@ export default ((opts?: NormDashboardOptions) => {
     })
     .filter((e) => e.created)
     .sort((a, b) => (b.created as Date).getTime() - (a.created as Date).getTime())
-    .slice(0, 5)
+    // .slice(0, 5)
     .map((e) => {
         // frontmatterのjpとenをそれぞれ読み取り，文字列として結合する
         const fm = e.f.frontmatter as { jp?: string; en?: string };
-        const title = fm?.en ? `${fm?.jp}（${fm.en}）` : fm?.jp;
-
         return {
-            title,
+            jp: fm?.jp,
+            en: fm?.en,
             slug: e.f.slug,
             created: e.created as Date,
-            definition: extractDefinition(e.f.filePath as string | undefined), // f.filepathで得られるかどうかわからない
+            definition: extractDefinition(e.f.filePath as string | undefined),
         };
     });
 
@@ -204,26 +203,39 @@ export default ((opts?: NormDashboardOptions) => {
         ))}
         </ul>
 
-        <h3>直近の追加↓↓</h3>
-        <ul class="norm-recent-list">
-          {recentEntries.map((e) => (
-            <li>
+        {/*  */}
+
+        <h3>直近の追加</h3>
+        <ul class="norm-recent-list" id="norm-recent-list">
+          {recentEntries.map((e, i) => (
+            <li class={i < 5 ? "" : "norm-recent-hidden"}>
               <a href={e.slug as string} class="norm-recent-link">
-                <span class="norm-recent-title">{e.title}</span>
+                <div class="norm-recent-header">
+                <div class="norm-recent-names">
+                    <span class="norm-recent-jp">{e.jp}</span>
+                    <span class="norm-recent-en">{e.en}</span>
+                </div>
                 <span class="norm-recent-time">
-                  {formatDateTime(e.created)}（{timeAgo(e.created)}）
+                    {formatDateTime(e.created)}（{timeAgo(e.created)}）
                 </span>
+                </div>
                 {e.definition && (
-                  <p
+                <p
                     class="norm-recent-definition"
                     dangerouslySetInnerHTML={{ __html: renderInlineMath(e.definition) }}
-                  />
+                />
                 )}
               </a>
             </li>
           ))}
         </ul>
+        {recentEntries.length > 5 && (
+        <button id="norm-recent-more" class="norm-recent-more-button">
+            さらに表示
+        </button>
+        )}
 
+        {/*  */}
 
         <script
           type="application/json"

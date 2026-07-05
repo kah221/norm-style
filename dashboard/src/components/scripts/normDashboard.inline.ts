@@ -202,6 +202,28 @@ function setupNormDashboard() {
     window.addCleanup(() => btn.removeEventListener("click", handler));
   });
 
+  // さらに表示ボタンの実装
+  const moreButton = document.getElementById("norm-recent-more");
+  const recentList = document.getElementById("norm-recent-list");
+  if (moreButton && recentList) {
+    const items = Array.from(recentList.querySelectorAll("li"));
+    let shown = items.filter((li) => !li.classList.contains("norm-recent-hidden")).length;
+
+    const revealMore = () => {
+      const next = items.slice(shown, shown + 10);
+      next.forEach((li) => li.classList.remove("norm-recent-hidden"));
+      shown += next.length;
+      if (shown >= items.length) {
+        (moreButton as HTMLElement).style.display = "none";
+      }
+    };
+
+    moreButton.addEventListener("click", revealMore);
+    window.addCleanup(() => moreButton.removeEventListener("click", revealMore));
+  }
+
+  //
+
   update("day");
 }
 
