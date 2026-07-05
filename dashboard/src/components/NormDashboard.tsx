@@ -22,7 +22,10 @@ export interface NormDashboardOptions {
 export default ((opts?: NormDashboardOptions) => {
   const { className = "norm-dashboard" } = opts ?? {};
 
-  const Component: QuartzComponent = ({ allFiles }: QuartzComponentProps) => {
+  const Component: QuartzComponent = ({ allFiles, fileData }: QuartzComponentProps) => {
+    if (fileData.slug !== "index") {  // indexページにだけ表示する
+        return null;
+    }
     console.error("NORM_DASHBOARD_RENDER_CHECK", allFiles.length); // 実験
     const wordFiles = allFiles.filter((f) => f.slug && /^_word\//i.test(f.slug));
     const personFiles = allFiles.filter((f) => f.slug && /^_name\//i.test(f.slug));
@@ -67,17 +70,17 @@ export default ((opts?: NormDashboardOptions) => {
 
     return (
       <div class={classNames(className)}>
-        <h2>norm 全体像</h2>
+        <h2>統計</h2>
 
         <div class="norm-summary-grid">
-          <div class="norm-stat-card">
-            <span class="norm-stat-number">{wordFiles.length}</span>
-            <span class="norm-stat-label">登録単語数</span>
-          </div>
-          <div class="norm-stat-card">
-            <span class="norm-stat-number">{personFiles.length}</span>
-            <span class="norm-stat-label">登録人物数</span>
-          </div>
+            <a class="norm-stat-card" href="_word/">
+                <span class="norm-stat-number">{wordFiles.length}</span>
+                <span class="norm-stat-label">単語</span>
+            </a>
+            <a class="norm-stat-card" href="_name/">
+                <span class="norm-stat-number">{personFiles.length}</span>
+                <span class="norm-stat-label">人物</span>
+            </a>
         </div>
 
         <h3>分野別</h3>

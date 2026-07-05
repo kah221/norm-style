@@ -29,7 +29,7 @@ function aggregate(timeline: TimelinePoint[], granularity: Granularity) {
 function renderChart(container: HTMLElement, data: { label: string; value: number }[]) {
   const totalWidth = container.clientWidth || 600;
   const leftMargin = 36;
-  const bottomMargin = 28;
+  const bottomMargin = 50;
   const topMargin = 20;
   const chartHeight = 160;
   const chartWidth = totalWidth - leftMargin;
