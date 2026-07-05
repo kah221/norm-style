@@ -205,7 +205,7 @@ export default ((opts?: NormDashboardOptions) => {
 
         {/*  */}
 
-        <h3>直近の追加</h3>
+        <h3>新着↓↓</h3>
         <ul class="norm-recent-list" id="norm-recent-list">
           {recentEntries.slice(0, 5).map((e) => (
             <li>
