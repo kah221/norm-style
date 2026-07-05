@@ -183,6 +183,21 @@ export default ((opts?: NormDashboardOptions) => {
         ))}
         </ul>
 
+        <h3>直近の追加↓↓</h3>
+        <ul class="norm-recent-list">
+          {recentEntries.map((e) => (
+            <li>
+              <a href={e.slug as string} class="norm-recent-link">
+                <span class="norm-recent-title">{e.title}</span>
+                <span class="norm-recent-time">
+                  {formatDateTime(e.created)}（{timeAgo(e.created)}）
+                </span>
+                {e.definition && <p class="norm-recent-definition">{e.definition}</p>}
+              </a>
+            </li>
+          ))}
+        </ul>
+
 
         <script
           type="application/json"

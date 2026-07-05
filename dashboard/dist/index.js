@@ -68,7 +68,23 @@ var NormDashboard_default = ((opts) => {
         return null;
       }
     }
-    [...wordFiles, ...personFiles].map((f3) => {
+    function timeAgo(d2) {
+      const diffMs = Date.now() - d2.getTime();
+      const minutes = Math.floor(diffMs / 6e4);
+      if (minutes < 60) return `${minutes}\u5206\u524D`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}\u6642\u9593\u524D`;
+      const days = Math.floor(hours / 24);
+      return `${days}\u65E5\u524D`;
+    }
+    function formatDateTime(d2) {
+      const m2 = d2.getMonth() + 1;
+      const day = d2.getDate();
+      const h2 = String(d2.getHours()).padStart(2, "0");
+      const min = String(d2.getMinutes()).padStart(2, "0");
+      return `${m2}/${day} ${h2}:${min}`;
+    }
+    const recentEntries = [...wordFiles, ...personFiles].map((f3) => {
       const created = f3.frontmatter?.time ? new Date(f3.frontmatter.time) : f3.dates?.created;
       return { f: f3, created };
     }).filter((e2) => e2.created).sort((a2, b) => b.created.getTime() - a2.created.getTime()).slice(0, 5).map((e2) => {
@@ -146,6 +162,17 @@ var NormDashboard_default = ((opts) => {
       /* @__PURE__ */ u2("ul", { class: "norm-field-list", children: elementEntries.map(([name, count]) => /* @__PURE__ */ u2("li", { children: /* @__PURE__ */ u2("a", { class: "norm-field-link", href: `tags/\u8981\u7D20/${encodeURIComponent(name)}`, children: [
         /* @__PURE__ */ u2("span", { class: "norm-field-name", children: name }),
         /* @__PURE__ */ u2("span", { class: "norm-field-count", children: count })
+      ] }) })) }),
+      /* @__PURE__ */ u2("h3", { children: "\u76F4\u8FD1\u306E\u8FFD\u52A0\u2193\u2193" }),
+      /* @__PURE__ */ u2("ul", { class: "norm-recent-list", children: recentEntries.map((e2) => /* @__PURE__ */ u2("li", { children: /* @__PURE__ */ u2("a", { href: e2.slug, class: "norm-recent-link", children: [
+        /* @__PURE__ */ u2("span", { class: "norm-recent-title", children: e2.title }),
+        /* @__PURE__ */ u2("span", { class: "norm-recent-time", children: [
+          formatDateTime(e2.created),
+          "\uFF08",
+          timeAgo(e2.created),
+          "\uFF09"
+        ] }),
+        e2.definition && /* @__PURE__ */ u2("p", { class: "norm-recent-definition", children: e2.definition })
       ] }) })) }),
       /* @__PURE__ */ u2(
         "script",
