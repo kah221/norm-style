@@ -41,18 +41,33 @@
     gap: 0.5rem;
 
     li {
+      min-width: 140px;
+    }
+
+    .norm-field-link {
       display: flex;
       justify-content: space-between;
       gap: 0.5rem;
       padding: 0.3rem 0.8rem;
       background: var(--lightgray);
       border-radius: 4px;
-      min-width: 140px;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s ease;
+
+      &:hover {
+        background: var(--secondary);
+        color: var(--light);
+      }
     }
 
     .norm-field-count {
       font-weight: 700;
       color: var(--secondary);
+    }
+
+    .norm-field-link:hover .norm-field-count {
+      color: var(--light);
     }
   }
 
@@ -78,5 +93,22 @@
 
   .norm-chart-bar {
     fill: var(--secondary);
+  }
+
+  .norm-chart-y-axis text,
+  .norm-chart-x-axis text {
+    fill: var(--darkgray);
+    font-size: 10px;
+  }
+
+  .norm-chart-gridline {
+    stroke: var(--lightgray);
+    stroke-width: 1;
+  }
+
+  .norm-chart-value-label {
+    fill: var(--dark);
+    font-size: 10px;
+    text-anchor: middle;
   }
 }
