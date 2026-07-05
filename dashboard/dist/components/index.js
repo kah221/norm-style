@@ -47,8 +47,14 @@ var NormDashboard_default = ((opts) => {
       return null;
     }
     console.error("NORM_DASHBOARD_RENDER_CHECK", allFiles.length);
-    const wordFiles = allFiles.filter((f3) => f3.slug && /^_word\//i.test(f3.slug));
-    const personFiles = allFiles.filter((f3) => f3.slug && /^_name\//i.test(f3.slug));
+    const wordFiles = allFiles.filter(
+      (f3) => f3.slug && /^_word\//i.test(f3.slug) && f3.frontmatter?.en
+      // フロントマターにenが含まれているファイルだけを探す（enは確実に登録する．一方で自動生成される_wordのindexページにはenが無いのでカウントから外れる）
+    );
+    const personFiles = allFiles.filter(
+      (f3) => f3.slug && /^_name\//i.test(f3.slug) && f3.frontmatter?.en
+      // ↑と同様の理由
+    );
     const byField = {};
     const byElement = {};
     const timelineMap = {};

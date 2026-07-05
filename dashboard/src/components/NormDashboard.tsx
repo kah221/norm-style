@@ -27,8 +27,12 @@ export default ((opts?: NormDashboardOptions) => {
         return null;
     }
     console.error("NORM_DASHBOARD_RENDER_CHECK", allFiles.length); // 実験
-    const wordFiles = allFiles.filter((f) => f.slug && /^_word\//i.test(f.slug));
-    const personFiles = allFiles.filter((f) => f.slug && /^_name\//i.test(f.slug));
+    const wordFiles = allFiles.filter(
+    (f) => f.slug && /^_word\//i.test(f.slug) && f.frontmatter?.en, // フロントマターにenが含まれているファイルだけを探す（enは確実に登録する．一方で自動生成される_wordのindexページにはenが無いのでカウントから外れる）
+    );
+    const personFiles = allFiles.filter(
+    (f) => f.slug && /^_name\//i.test(f.slug) && f.frontmatter?.en, // ↑と同様の理由
+    );
 
     const byField: Record<string, { count: number; sub: Record<string, number> }> = {};
     const byElement: Record<string, number> = {};
