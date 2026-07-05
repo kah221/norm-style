@@ -9,6 +9,7 @@ import style from "./styles/normDashboard.scss";
 import script from "./scripts/normDashboard.inline.ts";
 import fs from "node:fs"; //
 import path from "node:path"; //
+import katex from "katex"; // 「直近の追加」項目で数式を描画するため
 
 function toDateStr(d: Date): string {
   const y = d.getFullYear();
@@ -47,6 +48,26 @@ export default ((opts?: NormDashboardOptions) => {
         } catch {
             return null;
         }
+    }
+
+    // 直近の追加項目で数式を描画する
+    function renderInlineMath(text: string): string {
+    const escapeHtml = (s: string) =>
+        s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    return text
+        .split(/(\$[^$]+\$)/g)
+        .map((part) => {
+        if (part.startsWith("$") && part.endsWith("$") && part.length > 1) {
+            try {
+            return katex.renderToString(part.slice(1, -1), { throwOnError: false });
+            } catch {
+            return escapeHtml(part);
+            }
+        }
+        return escapeHtml(part);
+        })
+        .join("");
     }
 
     function timeAgo(d: Date): string {
@@ -192,7 +213,12 @@ export default ((opts?: NormDashboardOptions) => {
                 <span class="norm-recent-time">
                   {formatDateTime(e.created)}（{timeAgo(e.created)}）
                 </span>
-                {e.definition && <p class="norm-recent-definition">{e.definition}</p>}
+                {e.definition && (
+                  <p
+                    class="norm-recent-definition"
+                    dangerouslySetInnerHTML={{ __html: renderInlineMath(e.definition) }}
+                  />
+                )}
               </a>
             </li>
           ))}
