@@ -1,7 +1,32 @@
 type TimelinePoint = { date: string; count: number };
 type Granularity = "day" | "week" | "month" | "year";
 
+// グラフ，新規登録数が0の日があっても素直に表示するため
+function toDateStr(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+// グラフ，新規登録数が0の日があっても素直に表示するため
+function fillDailyGaps(timeline: TimelinePoint[]): TimelinePoint[] {
+  if (timeline.length === 0) return [];
+  const countByDate = new Map(timeline.map((t) => [t.date, t.count]));
+  const sortedDates = [...countByDate.keys()].sort((a, b) => a.localeCompare(b));
+  const start = new Date(sortedDates[0] + "T00:00:00");
+  const end = new Date(sortedDates[sortedDates.length - 1] + "T00:00:00");
+
+  const filled: TimelinePoint[] = [];
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    const key = toDateStr(d);
+    filled.push({ date: key, count: countByDate.get(key) ?? 0 });
+  }
+  return filled;
+}
+
 function aggregate(timeline: TimelinePoint[], granularity: Granularity) {
+  const filledTimeline = fillDailyGaps(timeline); // fillDailyGapsを参照
   const map = new Map<string, number>();
   for (const { date, count } of timeline) {
     const d = new Date(date + "T00:00:00");
