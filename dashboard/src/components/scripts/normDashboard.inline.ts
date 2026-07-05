@@ -267,12 +267,21 @@ function setupNormDashboard() {
       recentData = [];
     }
 
-    let shown = 5; // 最初の5件はサーバー側で描画済み
+    const countEl = document.getElementById("norm-recent-count");
+    let shown = Math.min(5, recentData.length); // 最初の5件はサーバー側で描画済み
+
+    const updateCount = () => {
+      if (countEl) {
+        countEl.textContent = `${shown}/${recentData.length}`;
+      }
+    };
+    updateCount();
 
     const revealMore = () => {
       const next = recentData.slice(shown, shown + 5);
       next.forEach((item) => recentList.appendChild(buildCard(item)));
       shown += next.length;
+      updateCount();
 
       if (shown >= recentData.length) {
         (moreButton as HTMLElement).style.display = "none";

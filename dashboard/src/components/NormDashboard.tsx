@@ -231,13 +231,17 @@ export default ((opts?: NormDashboardOptions) => {
         </ul>
 
         {recentEntries.length > 5 && (
+        <p id="norm-recent-count" class="norm-recent-count"></p>
+        )}
+
+        {recentEntries.length > 5 && (
         <button id="norm-recent-more" class="norm-recent-more-button">
             さらに表示
         </button>
         )}
         {recentEntries.length > 20 && ( // ■
         <div id="norm-recent-limit" class="norm-recent-limit" style={{ display: "none" }}>
-            <p class="norm-recent-limit-text">このページでの表示限界（100件）</p>
+            <p class="norm-recent-limit-text">このページでの表示限界(＠_＠;)</p>
             <div class="norm-recent-limit-buttons">
             <a href="_word/" class="norm-recent-limit-button">単語</a>
             <a href="_name/" class="norm-recent-limit-button">人物</a>
