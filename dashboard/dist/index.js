@@ -55,6 +55,9 @@ var NormDashboard_default = ((opts) => {
       (f3) => f3.slug && /^_name\//i.test(f3.slug) && f3.frontmatter?.en
       // ↑と同様の理由
     );
+    for (const f3 of wordFiles.slice(0, 3)) {
+      console.error("NORM_DEBUG_DATE", f3.slug, JSON.stringify(f3.dates));
+    }
     const byField = {};
     const byElement = {};
     const timelineMap = {};

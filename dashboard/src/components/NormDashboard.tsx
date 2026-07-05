@@ -34,6 +34,10 @@ export default ((opts?: NormDashboardOptions) => {
     (f) => f.slug && /^_name\//i.test(f.slug) && f.frontmatter?.en, // ↑と同様の理由
     );
 
+    for (const f of wordFiles.slice(0, 3)) {
+       console.error("NORM_DEBUG_DATE", f.slug, JSON.stringify(f.dates));
+    }
+
     const byField: Record<string, { count: number; sub: Record<string, number> }> = {};
     const byElement: Record<string, number> = {};
     const timelineMap: Record<string, number> = {};
