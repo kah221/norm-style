@@ -23,6 +23,7 @@ export default ((opts?: NormDashboardOptions) => {
   const { className = "norm-dashboard" } = opts ?? {};
 
   const Component: QuartzComponent = ({ allFiles }: QuartzComponentProps) => {
+    console.error("NORM_DASHBOARD_RENDER_CHECK", allFiles.length); // 実験
     const wordFiles = allFiles.filter((f) => f.slug && /^_word\//i.test(f.slug));
     const personFiles = allFiles.filter((f) => f.slug && /^_name\//i.test(f.slug));
 

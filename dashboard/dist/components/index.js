@@ -43,6 +43,7 @@ function toDateStr(d2) {
 var NormDashboard_default = ((opts) => {
   const { className = "norm-dashboard" } = opts ?? {};
   const Component = ({ allFiles }) => {
+    console.error("NORM_DASHBOARD_RENDER_CHECK", allFiles.length);
     const wordFiles = allFiles.filter((f3) => f3.slug && /^_word\//i.test(f3.slug));
     const personFiles = allFiles.filter((f3) => f3.slug && /^_name\//i.test(f3.slug));
     const byField = {};
