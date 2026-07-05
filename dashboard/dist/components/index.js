@@ -99,6 +99,14 @@ var NormDashboard_default = ((opts) => {
           /* @__PURE__ */ u2("span", { class: "norm-stat-label", children: "\u4EBA\u7269" })
         ] })
       ] }),
+      /* @__PURE__ */ u2("h3", { children: "\u767B\u9332\u63A8\u79FB" }),
+      /* @__PURE__ */ u2("div", { class: "norm-chart-controls", children: [
+        /* @__PURE__ */ u2("button", { "data-granularity": "day", class: "active", children: "\u65E5\u5225" }),
+        /* @__PURE__ */ u2("button", { "data-granularity": "week", children: "\u9031\u5225" }),
+        /* @__PURE__ */ u2("button", { "data-granularity": "month", children: "\u6708\u5225" }),
+        /* @__PURE__ */ u2("button", { "data-granularity": "year", children: "\u5E74\u5225" })
+      ] }),
+      /* @__PURE__ */ u2("div", { id: "norm-chart-container", class: "norm-chart-container" }),
       /* @__PURE__ */ u2("h3", { children: "\u5206\u91CE\u5225" }),
       /* @__PURE__ */ u2("ul", { class: "norm-field-list", children: fieldEntries.map(([name, v2]) => /* @__PURE__ */ u2("li", { children: /* @__PURE__ */ u2("a", { class: "norm-field-link", href: `tags/\u5206\u91CE/${encodeURIComponent(name)}`, children: [
         /* @__PURE__ */ u2("span", { class: "norm-field-name", children: name }),
@@ -109,14 +117,6 @@ var NormDashboard_default = ((opts) => {
         /* @__PURE__ */ u2("span", { class: "norm-field-name", children: name }),
         /* @__PURE__ */ u2("span", { class: "norm-field-count", children: count })
       ] }) })) }),
-      /* @__PURE__ */ u2("h3", { children: "\u767B\u9332\u63A8\u79FB" }),
-      /* @__PURE__ */ u2("div", { class: "norm-chart-controls", children: [
-        /* @__PURE__ */ u2("button", { "data-granularity": "day", class: "active", children: "\u65E5\u5225" }),
-        /* @__PURE__ */ u2("button", { "data-granularity": "week", children: "\u9031\u5225" }),
-        /* @__PURE__ */ u2("button", { "data-granularity": "month", children: "\u6708\u5225" }),
-        /* @__PURE__ */ u2("button", { "data-granularity": "year", children: "\u5E74\u5225" })
-      ] }),
-      /* @__PURE__ */ u2("div", { id: "norm-chart-container", class: "norm-chart-container" }),
       /* @__PURE__ */ u2(
         "script",
         {

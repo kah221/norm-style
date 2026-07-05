@@ -87,6 +87,15 @@ export default ((opts?: NormDashboardOptions) => {
             </a>
         </div>
 
+        <h3>登録推移</h3>
+        <div class="norm-chart-controls">
+          <button data-granularity="day" class="active">日別</button>
+          <button data-granularity="week">週別</button>
+          <button data-granularity="month">月別</button>
+          <button data-granularity="year">年別</button>
+        </div>
+        <div id="norm-chart-container" class="norm-chart-container"></div>
+
         <h3>分野別</h3>
         <ul class="norm-field-list">
         {fieldEntries.map(([name, v]) => (
@@ -111,14 +120,6 @@ export default ((opts?: NormDashboardOptions) => {
         ))}
         </ul>
 
-        <h3>登録推移</h3>
-        <div class="norm-chart-controls">
-          <button data-granularity="day" class="active">日別</button>
-          <button data-granularity="week">週別</button>
-          <button data-granularity="month">月別</button>
-          <button data-granularity="year">年別</button>
-        </div>
-        <div id="norm-chart-container" class="norm-chart-container"></div>
 
         <script
           type="application/json"
