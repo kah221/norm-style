@@ -83,10 +83,10 @@ function aggregate(timeline: TimelinePoint[], granularity: Granularity) {
 }
 
 function renderChart(
-    container: HTMLElement,
-    data: { label: string; value: number }[],
-    granularity: Granularity,
-  ) {
+  container: HTMLElement,
+  data: { label: string; value: number }[],
+  granularity: Granularity,
+) {
   const totalWidth = container.clientWidth || 600;
   const leftMargin = 36;
   const bottomMargin = 26;
@@ -96,8 +96,8 @@ function renderChart(
   const barGap = 4;
   const barWidth = Math.max(3, Math.floor(chartWidth / Math.max(1, data.length)) - barGap);
   const max = Math.max(1, ...data.map((d) => d.value));
-  const isMobile = window.matchMedia("(max-width: 480px)").matches; // スマホサイズ対応
-  const axisFontSize = isMobile ? 8 : 10; // スマホサイズ対応
+  const isMobile = window.matchMedia("(max-width: 480px)").matches;
+  const axisFontSize = isMobile ? 8 : 10;
   const svgns = "http://www.w3.org/2000/svg";
 
   const svg = document.createElementNS(svgns, "svg");
@@ -121,17 +121,17 @@ function renderChart(
     label.setAttribute("y", String(y + 3));
     label.setAttribute("text-anchor", "end");
     label.setAttribute("class", "norm-chart-y-axis");
-    label.setAttribute("font-size", String(axisFontSize)); // フォントサイズを反映させる
+    label.setAttribute("font-size", String(axisFontSize));
     label.textContent = String(tickValue);
     svg.appendChild(label);
   });
 
-    let labelStep = Math.max(1, Math.ceil(data.length / 14));
-    if (isMobile && granularity === "day") {
-      labelStep *= 3; // スマホでの日別：3つ置き
-    } else if (isMobile && granularity === "month") {
-      labelStep *= 2; // スマホでの月別：2つ置き
-    }
+  let labelStep = Math.max(1, Math.ceil(data.length / 14));
+  if (isMobile && granularity === "day") {
+    labelStep *= 3;
+  } else if (isMobile && granularity === "month") {
+    labelStep *= 2;
+  }
 
   data.forEach((d, i) => {
     const barHeight = (d.value / max) * chartHeight;
@@ -164,7 +164,7 @@ function renderChart(
       xLabel.setAttribute("y", String(topMargin + chartHeight + 16));
       xLabel.setAttribute("text-anchor", "middle");
       xLabel.setAttribute("class", "norm-chart-x-axis");
-      xLabel.setAttribute("font-size", String(axisFontSize)); // フォントサイズ適用
+      xLabel.setAttribute("font-size", String(axisFontSize));
       xLabel.textContent = d.label;
       svg.appendChild(xLabel);
     }
@@ -174,47 +174,111 @@ function renderChart(
   container.appendChild(svg);
 }
 
+type RecentItem = {
+  jp?: string;
+  en?: string;
+  slug: string;
+  dateTimeLabel: string;
+  agoLabel: string;
+  definitionHtml: string | null;
+};
+
+function buildCard(item: RecentItem): HTMLLIElement {
+  const li = document.createElement("li");
+  const a = document.createElement("a");
+  a.href = item.slug;
+  a.className = "norm-recent-link";
+
+  const header = document.createElement("div");
+  header.className = "norm-recent-header";
+
+  const names = document.createElement("div");
+  names.className = "norm-recent-names";
+  const jpSpan = document.createElement("span");
+  jpSpan.className = "norm-recent-jp";
+  jpSpan.textContent = item.jp ?? "";
+  const enSpan = document.createElement("span");
+  enSpan.className = "norm-recent-en";
+  enSpan.textContent = item.en ?? "";
+  names.appendChild(jpSpan);
+  names.appendChild(enSpan);
+
+  const time = document.createElement("span");
+  time.className = "norm-recent-time";
+  time.textContent = `${item.dateTimeLabel}（${item.agoLabel}）`;
+
+  header.appendChild(names);
+  header.appendChild(time);
+  a.appendChild(header);
+
+  if (item.definitionHtml) {
+    const p = document.createElement("p");
+    p.className = "norm-recent-definition";
+    p.innerHTML = item.definitionHtml;
+    a.appendChild(p);
+  }
+
+  li.appendChild(a);
+  return li;
+}
+
 function setupNormDashboard() {
   const dataEl = document.getElementById("norm-stats-data");
   const container = document.getElementById("norm-chart-container");
-  if (!dataEl || !container) return;
+  if (dataEl && container) {
+    let stats: { timeline: TimelinePoint[] };
+    try {
+      stats = JSON.parse(dataEl.textContent || "{}");
+      const timeline = stats.timeline ?? [];
 
-  let stats: { timeline: TimelinePoint[] };
-  try {
-    stats = JSON.parse(dataEl.textContent || "{}");
-  } catch {
-    return;
+      function update(granularity: Granularity) {
+        renderChart(container as HTMLElement, aggregate(timeline, granularity), granularity);
+      }
+
+      const buttons = document.querySelectorAll<HTMLButtonElement>(".norm-chart-controls button");
+      buttons.forEach((btn) => {
+        const handler = () => {
+          buttons.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          update((btn.dataset.granularity as Granularity) ?? "day");
+        };
+        btn.addEventListener("click", handler);
+        window.addCleanup(() => btn.removeEventListener("click", handler));
+      });
+
+      update("day");
+    } catch {
+      // 統計データが無い・壊れている場合は何もしない
+    }
   }
-  const timeline = stats.timeline ?? [];
 
-  function update(granularity: Granularity) {
-    renderChart(container as HTMLElement, aggregate(timeline, granularity), granularity);
-  }
-
-  const buttons = document.querySelectorAll<HTMLButtonElement>(".norm-chart-controls button");
-  buttons.forEach((btn) => {
-    const handler = () => {
-      buttons.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      update((btn.dataset.granularity as Granularity) ?? "day");
-    };
-    btn.addEventListener("click", handler);
-    window.addCleanup(() => btn.removeEventListener("click", handler));
-  });
-
-  // さらに表示ボタンの実装
+  // 「直近の追加」：さらに表示ボタン（JSON方式・5件ずつ・上限100件）
   const moreButton = document.getElementById("norm-recent-more");
+  const limitBlock = document.getElementById("norm-recent-limit");
+  const scrollTopButton = document.getElementById("norm-recent-scroll-top");
   const recentList = document.getElementById("norm-recent-list");
-  if (moreButton && recentList) {
-    const items = Array.from(recentList.querySelectorAll("li"));
-    let shown = items.filter((li) => !li.classList.contains("norm-recent-hidden")).length;
+  const recentDataEl = document.getElementById("norm-recent-data");
+
+  if (moreButton && recentList && recentDataEl) {
+    let recentData: RecentItem[] = [];
+    try {
+      recentData = JSON.parse(recentDataEl.textContent || "[]");
+    } catch {
+      recentData = [];
+    }
+
+    let shown = 5; // 最初の5件はサーバー側で描画済み
 
     const revealMore = () => {
-      const next = items.slice(shown, shown + 10);
-      next.forEach((li) => li.classList.remove("norm-recent-hidden"));
+      const next = recentData.slice(shown, shown + 5);
+      next.forEach((item) => recentList.appendChild(buildCard(item)));
       shown += next.length;
-      if (shown >= items.length) {
+
+      if (shown >= recentData.length) {
         (moreButton as HTMLElement).style.display = "none";
+        if (limitBlock) {
+          (limitBlock as HTMLElement).style.display = "block";
+        }
       }
     };
 
@@ -222,9 +286,13 @@ function setupNormDashboard() {
     window.addCleanup(() => moreButton.removeEventListener("click", revealMore));
   }
 
-  //
-
-  update("day");
+  if (scrollTopButton) {
+    const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    scrollTopButton.addEventListener("click", scrollToTop);
+    window.addCleanup(() => scrollTopButton.removeEventListener("click", scrollToTop));
+  }
 }
 
 document.addEventListener("nav", setupNormDashboard);

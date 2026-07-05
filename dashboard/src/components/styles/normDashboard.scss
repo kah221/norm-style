@@ -133,15 +133,16 @@
   a {
     display: block;
     padding: 0.6rem 0.9rem;
-    background: var(--light);
+    background-color: var(--light);
     border: 1px solid var(--lightgray);
     border-radius: 4px;
     text-decoration: none;
     color: inherit;
-    transition: background 0.15s ease;
+    transition: background-color 0.1s ease-out;
+    transition-delay: 0s;
 
     &:hover {
-      background: var(--lightgray);
+      background-color: var(--lightgray);
     }
 
     &:hover .norm-recent-definition {
@@ -198,5 +199,37 @@
 
   &:hover {
     background: var(--lightgray);
+  }
+}
+
+.norm-recent-limit {
+  text-align: center;
+  margin-top: 0.8rem;
+
+  .norm-recent-limit-text {
+    font-size: 0.85rem;
+    color: var(--darkgray);
+    margin-bottom: 0.5rem;
+  }
+
+  .norm-recent-limit-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
+  .norm-recent-limit-button {
+    padding: 0.35rem 1rem;
+    border: 1px solid var(--lightgray);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--dark);
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+
+    &:hover {
+      background: var(--lightgray);
+    }
   }
 }

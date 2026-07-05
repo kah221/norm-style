@@ -207,33 +207,61 @@ export default ((opts?: NormDashboardOptions) => {
 
         <h3>直近の追加</h3>
         <ul class="norm-recent-list" id="norm-recent-list">
-          {recentEntries.map((e, i) => (
-            <li class={i < 5 ? "" : "norm-recent-hidden"}>
-              <a href={e.slug as string} class="norm-recent-link">
-                <div class="norm-recent-header">
-                <div class="norm-recent-names">
-                    <span class="norm-recent-jp">{e.jp}</span>
-                    <span class="norm-recent-en">{e.en}</span>
-                </div>
-                <span class="norm-recent-time">
-                    {formatDateTime(e.created)}（{timeAgo(e.created)}）
-                </span>
-                </div>
-                {e.definition && (
-                <p
-                    class="norm-recent-definition"
-                    dangerouslySetInnerHTML={{ __html: renderInlineMath(e.definition) }}
-                />
-                )}
-              </a>
+          {recentEntries.slice(0, 5).map((e) => (
+            <li>
+                <a href={e.slug as string} class="norm-recent-link">
+                    <div class="norm-recent-header">
+                    <div class="norm-recent-names">
+                        <span class="norm-recent-jp">{e.jp}</span>
+                        <span class="norm-recent-en">{e.en}</span>
+                    </div>
+                    <span class="norm-recent-time">
+                        {formatDateTime(e.created)}（{timeAgo(e.created)}）
+                    </span>
+                    </div>
+                    {e.definition && (
+                    <p
+                        class="norm-recent-definition"
+                        dangerouslySetInnerHTML={{ __html: renderInlineMath(e.definition) }}
+                    />
+                    )}
+                </a>
             </li>
           ))}
         </ul>
+
         {recentEntries.length > 5 && (
         <button id="norm-recent-more" class="norm-recent-more-button">
             さらに表示
         </button>
         )}
+        {recentEntries.length > 100 && (
+        <div id="norm-recent-limit" class="norm-recent-limit" style={{ display: "none" }}>
+            <p class="norm-recent-limit-text">このページでの表示限界（100件）</p>
+            <div class="norm-recent-limit-buttons">
+            <a href="_word/" class="norm-recent-limit-button">単語</a>
+            <a href="_name/" class="norm-recent-limit-button">人物</a>
+            <button id="norm-recent-scroll-top" class="norm-recent-limit-button">一番上へ</button>
+            </div>
+        </div>
+        )}
+
+        <script
+        type="application/json"
+        id="norm-recent-data"
+        dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+            recentEntries.slice(0, 100).map((e) => ({
+                jp: e.jp,
+                en: e.en,
+                slug: e.slug,
+                dateTimeLabel: formatDateTime(e.created),
+                agoLabel: timeAgo(e.created),
+                definitionHtml: e.definition ? renderInlineMath(e.definition) : null,
+            })),
+            ),
+        }}
+        />
 
         {/*  */}
 
