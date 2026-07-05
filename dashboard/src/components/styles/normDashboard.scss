@@ -115,3 +115,33 @@
     text-anchor: middle;
   }
 }
+
+// 直近の追加
+.norm-recent-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  a {
+    display: block;
+    padding: 0.5rem 0.8rem;
+    background: var(--lightgray);
+    border-radius: 4px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .norm-recent-time {
+    font-size: 0.8rem;
+    color: var(--darkgray);
+    margin-left: 0.5rem;
+  }
+
+  .norm-recent-definition {
+    margin: 0.3rem 0 0;
+    font-size: 0.85rem;
+    color: var(--darkgray);
+  }
+}

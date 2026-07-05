@@ -7,6 +7,8 @@ import { classNames } from "../util/lang";
 import style from "./styles/normDashboard.scss";
 // @ts-expect-error - inline script import handled by Quartz bundler
 import script from "./scripts/normDashboard.inline.ts";
+import fs from "node:fs"; //
+import path from "node:path"; //
 
 function toDateStr(d: Date): string {
   const y = d.getFullYear();
@@ -33,6 +35,60 @@ export default ((opts?: NormDashboardOptions) => {
     const personFiles = allFiles.filter(
     (f) => f.slug && /^_name\//i.test(f.slug) && f.frontmatter?.en, // ↑と同様の理由
     );
+
+    // 直近の追加を表示する
+    function extractDefinition(relativePath?: string): string | null {
+        if (!relativePath) return null;
+        try {
+            const fullPath = path.resolve(process.cwd(), relativePath);
+            const raw = fs.readFileSync(fullPath, "utf-8");
+            const match = raw.match(/^>\s?(.+)$/m);
+            return match?.[1]?.trim() ?? null; // ←記法???
+        } catch {
+            return null;
+        }
+    }
+
+    function timeAgo(d: Date): string {
+        const diffMs = Date.now() - d.getTime();
+        const minutes = Math.floor(diffMs / 60000);
+        if (minutes < 60) return `${minutes}分前`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours}時間前`;
+        const days = Math.floor(hours / 24);
+        return `${days}日前`;
+    }
+
+    function formatDateTime(d: Date): string {
+        const m = d.getMonth() + 1;
+        const day = d.getDate();
+        const h = String(d.getHours()).padStart(2, "0");
+        const min = String(d.getMinutes()).padStart(2, "0");
+        return `${m}/${day} ${h}:${min}`;
+    }
+
+    const recentEntries = [...wordFiles, ...personFiles]
+        .map((f) => {
+            const created = f.frontmatter?.time
+            ? new Date(f.frontmatter.time as string)
+            : f.dates?.created;
+            return { f, created };
+    })
+    .filter((e) => e.created)
+    .sort((a, b) => (b.created as Date).getTime() - (a.created as Date).getTime())
+    .slice(0, 5)
+    .map((e) => {
+        // frontmatterのjpとenをそれぞれ読み取り，文字列として結合する
+        const fm = e.f.frontmatter as { jp?: string; en?: string };
+        const title = fm?.en ? `${fm?.jp}（${fm.en}）` : fm?.jp;
+
+        return {
+            title,
+            slug: e.f.slug,
+            created: e.created as Date,
+            definition: extractDefinition(e.f.filePath as string | undefined), // f.filepathで得られるかどうかわからない
+        };
+    });
 
     for (const f of wordFiles.slice(0, 3)) {
        console.error("NORM_DEBUG_DATE", f.slug, JSON.stringify(f.dates));

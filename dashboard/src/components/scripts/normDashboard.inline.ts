@@ -82,7 +82,11 @@ function aggregate(timeline: TimelinePoint[], granularity: Granularity) {
   }));
 }
 
-function renderChart(container: HTMLElement, data: { label: string; value: number }[]) {
+function renderChart(
+    container: HTMLElement,
+    data: { label: string; value: number }[],
+    granularity: Granularity,
+  ) {
   const totalWidth = container.clientWidth || 600;
   const leftMargin = 36;
   const bottomMargin = 26;
@@ -92,6 +96,8 @@ function renderChart(container: HTMLElement, data: { label: string; value: numbe
   const barGap = 4;
   const barWidth = Math.max(3, Math.floor(chartWidth / Math.max(1, data.length)) - barGap);
   const max = Math.max(1, ...data.map((d) => d.value));
+  const isMobile = window.matchMedia("(max-width: 480px)").matches; // スマホサイズ対応
+  const axisFontSize = isMobile ? 8 : 10; // スマホサイズ対応
   const svgns = "http://www.w3.org/2000/svg";
 
   const svg = document.createElementNS(svgns, "svg");
@@ -115,11 +121,17 @@ function renderChart(container: HTMLElement, data: { label: string; value: numbe
     label.setAttribute("y", String(y + 3));
     label.setAttribute("text-anchor", "end");
     label.setAttribute("class", "norm-chart-y-axis");
+    label.setAttribute("font-size", String(axisFontSize)); // フォントサイズを反映させる
     label.textContent = String(tickValue);
     svg.appendChild(label);
   });
 
-  const labelStep = Math.max(1, Math.ceil(data.length / 14));
+    let labelStep = Math.max(1, Math.ceil(data.length / 14));
+    if (isMobile && granularity === "day") {
+      labelStep *= 3; // スマホでの日別：3つ置き
+    } else if (isMobile && granularity === "month") {
+      labelStep *= 2; // スマホでの月別：2つ置き
+    }
 
   data.forEach((d, i) => {
     const barHeight = (d.value / max) * chartHeight;
@@ -152,6 +164,7 @@ function renderChart(container: HTMLElement, data: { label: string; value: numbe
       xLabel.setAttribute("y", String(topMargin + chartHeight + 16));
       xLabel.setAttribute("text-anchor", "middle");
       xLabel.setAttribute("class", "norm-chart-x-axis");
+      xLabel.setAttribute("font-size", String(axisFontSize)); // フォントサイズ適用
       xLabel.textContent = d.label;
       svg.appendChild(xLabel);
     }
@@ -175,7 +188,7 @@ function setupNormDashboard() {
   const timeline = stats.timeline ?? [];
 
   function update(granularity: Granularity) {
-    renderChart(container as HTMLElement, aggregate(timeline, granularity));
+    renderChart(container as HTMLElement, aggregate(timeline, granularity), granularity);
   }
 
   const buttons = document.querySelectorAll<HTMLButtonElement>(".norm-chart-controls button");
