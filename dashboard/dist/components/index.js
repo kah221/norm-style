@@ -75,7 +75,7 @@ var NormDashboard_default = ((opts) => {
           byElement[parts[1]] = (byElement[parts[1]] ?? 0) + 1;
         }
       }
-      const created = f3.dates?.created;
+      const created = f3.frontmatter?.time ? new Date(f3.frontmatter.time) : f3.dates?.created;
       if (created) {
         const key = toDateStr(new Date(created));
         timelineMap[key] = (timelineMap[key] ?? 0) + 1;

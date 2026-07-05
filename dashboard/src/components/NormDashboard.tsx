@@ -56,7 +56,10 @@ export default ((opts?: NormDashboardOptions) => {
           byElement[parts[1]] = (byElement[parts[1]] ?? 0) + 1;
         }
       }
-      const created = f.dates?.created;
+      // ↓ファイル(単語と人物)の作成日時は，Quartzの処理で行わず，各ファイルの冒頭のfrontmatterのtimeを用いる
+      const created = f.frontmatter?.time
+        ? new Date(f.frontmatter.time as string)
+        : f.dates?.created;
       if (created) {
         const key = toDateStr(new Date(created));
         timelineMap[key] = (timelineMap[key] ?? 0) + 1;
