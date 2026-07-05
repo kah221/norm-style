@@ -165,21 +165,25 @@
   .norm-recent-jp {
     color: var(--secondary);
     font-weight: 700;
+    line-height: 1.2;
   }
 
   .norm-recent-en {
     font-size: 0.75rem;
     color: var(--gray);
+    line-height: 1.2;
+    margin-top: -0.1rem;
   }
 
   .norm-recent-time {
     font-size: 0.8rem;
     color: var(--darkgray);
+    opacity: 0.75;
     white-space: nowrap;
   }
 
   .norm-recent-definition {
-    margin: 0.4rem 0 0;
+    margin: 0.25rem 0 0;
     font-size: 0.85rem;
     color: var(--darkgray);
     text-indent: 1em;

@@ -235,7 +235,7 @@ export default ((opts?: NormDashboardOptions) => {
             さらに表示
         </button>
         )}
-        {recentEntries.length > 100 && (
+        {recentEntries.length > 20 && ( // ■
         <div id="norm-recent-limit" class="norm-recent-limit" style={{ display: "none" }}>
             <p class="norm-recent-limit-text">このページでの表示限界（100件）</p>
             <div class="norm-recent-limit-buttons">
@@ -251,7 +251,7 @@ export default ((opts?: NormDashboardOptions) => {
         id="norm-recent-data"
         dangerouslySetInnerHTML={{
             __html: JSON.stringify(
-            recentEntries.slice(0, 100).map((e) => ({
+            recentEntries.slice(0, 20).map((e) => ({ // ■
                 jp: e.jp,
                 en: e.en,
                 slug: e.slug,
