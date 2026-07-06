@@ -14539,6 +14539,11 @@ function toDateStr(d2) {
   const day = String(d2.getDate()).padStart(2, "0");
   return `${y2}-${m2}-${day}`;
 }
+function parseTimeAsJST(timeStr) {
+  const hasTimezone = /[Zz]|[+-]\d{2}:?\d{2}$/.test(timeStr);
+  const normalized = timeStr.trim().replace(" ", "T");
+  return hasTimezone ? new Date(normalized) : /* @__PURE__ */ new Date(`${normalized}+09:00`);
+}
 var NormDashboard_default = ((opts) => {
   const { className = "norm-dashboard" } = opts ?? {};
   const Component = ({ allFiles, fileData }) => {
@@ -14595,7 +14600,7 @@ var NormDashboard_default = ((opts) => {
       return `${m2}/${day} ${h2}:${min}`;
     }
     const recentEntries = [...wordFiles, ...personFiles].map((f3) => {
-      const created = f3.frontmatter?.time ? new Date(f3.frontmatter.time) : f3.dates?.created;
+      const created = f3.frontmatter?.time ? parseTimeAsJST(f3.frontmatter.time) : f3.dates?.created;
       return { f: f3, created };
     }).filter((e2) => e2.created).sort((a2, b) => b.created.getTime() - a2.created.getTime()).map((e2) => {
       const fm = e2.f.frontmatter;
@@ -14627,7 +14632,7 @@ var NormDashboard_default = ((opts) => {
           byElement[parts[1]] = (byElement[parts[1]] ?? 0) + 1;
         }
       }
-      const created = f3.frontmatter?.time ? new Date(f3.frontmatter.time) : f3.dates?.created;
+      const created = f3.frontmatter?.time ? parseTimeAsJST(f3.frontmatter.time) : f3.dates?.created;
       if (created) {
         const key = toDateStr(new Date(created));
         timelineMap[key] = (timelineMap[key] ?? 0) + 1;

@@ -18,6 +18,16 @@ function toDateStr(d: Date): string {
   return `${y}-${m}-${day}`;
 }
 
+// 260707_0124
+// タイムゾーン違いで表示が-9時間になっていたのでfrontmatterのdateを日本時間として読み込むためのヘルパー関数
+function parseTimeAsJST(timeStr: string): Date {
+  // タイムゾーン表記（Z や +09:00 など）が既に含まれていればそのまま，
+  // 無ければ日本時間（+09:00）として明示的に解釈
+  const hasTimezone = /[Zz]|[+-]\d{2}:?\d{2}$/.test(timeStr);
+  const normalized = timeStr.trim().replace(" ", "T");
+  return hasTimezone ? new Date(normalized) : new Date(`${normalized}+09:00`);
+}
+
 export interface NormDashboardOptions {
   className?: string;
 }
@@ -91,7 +101,7 @@ export default ((opts?: NormDashboardOptions) => {
     const recentEntries = [...wordFiles, ...personFiles]
         .map((f) => {
             const created = f.frontmatter?.time
-            ? new Date(f.frontmatter.time as string)
+            ? parseTimeAsJST(f.frontmatter.time as string) // 関数で日本時間で解釈
             : f.dates?.created;
             return { f, created };
     })
@@ -134,7 +144,7 @@ export default ((opts?: NormDashboardOptions) => {
       }
       // ↓ファイル(単語と人物)の作成日時は，Quartzの処理で行わず，各ファイルの冒頭のfrontmatterのtimeを用いる
       const created = f.frontmatter?.time
-        ? new Date(f.frontmatter.time as string)
+        ? parseTimeAsJST(f.frontmatter.time as string) // 関数呼び出しで日本時間で解釈
         : f.dates?.created;
       if (created) {
         const key = toDateStr(new Date(created));
