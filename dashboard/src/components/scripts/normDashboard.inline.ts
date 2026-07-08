@@ -36,7 +36,6 @@ function formatLabel(key: string, granularity: Granularity): string {
   return key; // year
 }
 
-// 今日を起点に，各粒度で遡る期間と刻み幅を定義する
 function generateBuckets(granularity: Granularity): string[] {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -174,12 +173,41 @@ function renderChart(
   container.appendChild(svg);
 }
 
+// ↓↓ ここから「直近の追加」関連
+//    時刻計算はすべてクライアント側で行う
+
+const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
+
+function formatDateTimeJST(iso: string): string {
+  const d = new Date(iso);
+  const jst = new Date(d.getTime() + JST_OFFSET_MS);
+  const m = jst.getUTCMonth() + 1;
+  const day = jst.getUTCDate();
+  const h = String(jst.getUTCHours()).padStart(2, "0");
+  const min = String(jst.getUTCMinutes()).padStart(2, "0");
+  return `${m}/${day} ${h}:${min}`;
+}
+
+function timeAgo(iso: string): string {
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const minutes = Math.floor(diffMs / 60000);
+  if (minutes < 1) return "たった今";
+  if (minutes < 60) return `${minutes}分前`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}時間前`;
+  const days = Math.floor(hours / 24);
+  return `${days}日前`;
+}
+
+function renderTimeLabel(iso: string): string {
+  return `${formatDateTimeJST(iso)}（${timeAgo(iso)}）`;
+}
+
 type RecentItem = {
   jp?: string;
   en?: string;
   slug: string;
-  dateTimeLabel: string;
-  agoLabel: string;
+  createdISO: string;
   definitionHtml: string | null;
 };
 
@@ -205,7 +233,7 @@ function buildCard(item: RecentItem): HTMLLIElement {
 
   const time = document.createElement("span");
   time.className = "norm-recent-time";
-  time.textContent = `${item.dateTimeLabel}（${item.agoLabel}）`;
+  time.textContent = renderTimeLabel(item.createdISO);
 
   header.appendChild(names);
   header.appendChild(time);
@@ -226,9 +254,8 @@ function setupNormDashboard() {
   const dataEl = document.getElementById("norm-stats-data");
   const container = document.getElementById("norm-chart-container");
   if (dataEl && container) {
-    let stats: { timeline: TimelinePoint[] };
     try {
-      stats = JSON.parse(dataEl.textContent || "{}");
+      const stats: { timeline: TimelinePoint[] } = JSON.parse(dataEl.textContent || "{}");
       const timeline = stats.timeline ?? [];
 
       function update(granularity: Granularity) {
@@ -252,7 +279,15 @@ function setupNormDashboard() {
     }
   }
 
-  // 「直近の追加」：さらに表示ボタン（JSON方式・5件ずつ・上限100件）
+  // 最初の5件（サーバー側で描画済み）の時刻表示を，開いた瞬間の時刻で計算し直す
+  document.querySelectorAll<HTMLElement>(".norm-recent-time[data-created]").forEach((el) => {
+    const iso = el.dataset.created;
+    if (iso) {
+      el.textContent = renderTimeLabel(iso);
+    }
+  });
+
+  // 「さらに表示」ボタン（JSON方式・5件ずつ・上限あり）
   const moreButton = document.getElementById("norm-recent-more");
   const limitBlock = document.getElementById("norm-recent-limit");
   const scrollTopButton = document.getElementById("norm-recent-scroll-top");
@@ -268,7 +303,7 @@ function setupNormDashboard() {
     }
 
     const countEl = document.getElementById("norm-recent-count");
-    let shown = Math.min(5, recentData.length); // 最初の5件はサーバー側で描画済み
+    let shown = Math.min(5, recentData.length);
 
     const updateCount = () => {
       if (countEl) {

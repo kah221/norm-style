@@ -12,9 +12,10 @@ import path from "node:path"; //
 import katex from "katex"; // 「直近の追加」項目で数式を描画するため
 
 function toDateStr(d: Date): string {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
+  const jst = new Date(d.getTime() + 9 * 60 * 60 * 1000); // JSTは9時間後
+  const y = jst.getUTCFullYear(); // UTCで読み込むことで，GitHubのBuildされる環境がどこであっても時間が合う
+  const m = String(jst.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(jst.getUTCDate()).padStart(2, "0");
   return `${y}-${m}-${day}`;
 }
 
@@ -225,9 +226,7 @@ export default ((opts?: NormDashboardOptions) => {
                         <span class="norm-recent-jp">{e.jp}</span>
                         <span class="norm-recent-en">{e.en}</span>
                     </div>
-                    <span class="norm-recent-time">
-                        {formatDateTime(e.created)}（{timeAgo(e.created)}）
-                    </span>
+                        <span class="norm-recent-time" data-created={e.created.toISOString()}></span>
                     </div>
                     {e.definition && (
                     <p
@@ -249,7 +248,7 @@ export default ((opts?: NormDashboardOptions) => {
             さらに表示
         </button>
         )}
-        {recentEntries.length > 20 && ( // ■
+        {recentEntries.length > 50 && ( // ■
         <div id="norm-recent-limit" class="norm-recent-limit" style={{ display: "none" }}>
             <p class="norm-recent-limit-text">このページでの表示限界(＠_＠;)</p>
             <div class="norm-recent-limit-buttons">
@@ -265,15 +264,14 @@ export default ((opts?: NormDashboardOptions) => {
         id="norm-recent-data"
         dangerouslySetInnerHTML={{
             __html: JSON.stringify(
-            recentEntries.slice(0, 20).map((e) => ({ // ■
-                jp: e.jp,
-                en: e.en,
-                slug: e.slug,
-                dateTimeLabel: formatDateTime(e.created),
-                agoLabel: timeAgo(e.created),
-                definitionHtml: e.definition ? renderInlineMath(e.definition) : null,
+          recentEntries.slice(0, 50).map((e) => ({ // ■
+            jp: e.jp,
+            en: e.en,
+            slug: e.slug,
+            createdISO: e.created.toISOString(),
+            definitionHtml: e.definition ? renderInlineMath(e.definition) : null,
             })),
-            ),
+          ),
         }}
         />
 
