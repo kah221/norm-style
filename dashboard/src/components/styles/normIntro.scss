@@ -1,3 +1,34 @@
+// 先頭表示用（index・フォルダ・タグページ）
+.norm-intro-top {
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+
+  summary {
+    cursor: pointer;
+    font-weight: bold;
+    list-style: none;
+
+    &::before {
+      content: "▶";
+      display: inline-block;
+      margin-right: 0.5em;
+      transition: transform 0.2s ease;
+    }
+  }
+
+  &[open] summary::before {
+    transform: rotate(90deg);
+  }
+
+  p {
+    margin: 0.75rem 0 0 0;
+    line-height: 1.7;
+  }
+}
+
+// 末尾表示用（単語・人物ページ）
 .norm-intro-bottom {
   margin: 3rem 0 0 0;
   opacity: 0.7;
