@@ -14652,16 +14652,6 @@ var NormDashboard_default = ((opts) => {
         /* @__PURE__ */ u2("button", { "data-granularity": "year", children: "\u5E74\u5225" })
       ] }),
       /* @__PURE__ */ u2("div", { id: "norm-chart-container", class: "norm-chart-container" }),
-      /* @__PURE__ */ u2("h3", { children: "\u5206\u91CE\u5225" }),
-      /* @__PURE__ */ u2("ul", { class: "norm-field-list", children: fieldEntries.map(([name, v2]) => /* @__PURE__ */ u2("li", { children: /* @__PURE__ */ u2("a", { class: "norm-field-link", href: `tags/\u5206\u91CE/${encodeURIComponent(name)}`, children: [
-        /* @__PURE__ */ u2("span", { class: "norm-field-name", children: name }),
-        /* @__PURE__ */ u2("span", { class: "norm-field-count", children: v2.count })
-      ] }) })) }),
-      /* @__PURE__ */ u2("h3", { children: "\u8981\u7D20\u5225" }),
-      /* @__PURE__ */ u2("ul", { class: "norm-field-list", children: elementEntries.map(([name, count]) => /* @__PURE__ */ u2("li", { children: /* @__PURE__ */ u2("a", { class: "norm-field-link", href: `tags/\u8981\u7D20/${encodeURIComponent(name)}`, children: [
-        /* @__PURE__ */ u2("span", { class: "norm-field-name", children: name }),
-        /* @__PURE__ */ u2("span", { class: "norm-field-count", children: count })
-      ] }) })) }),
       /* @__PURE__ */ u2("h3", { children: "\u65B0\u7740\u2193\u2193" }),
       /* @__PURE__ */ u2("ul", { class: "norm-recent-list", id: "norm-recent-list", children: recentEntries.slice(0, 5).map((e2) => /* @__PURE__ */ u2("li", { children: /* @__PURE__ */ u2("a", { href: e2.slug, class: "norm-recent-link", children: [
         /* @__PURE__ */ u2("div", { class: "norm-recent-header", children: [
@@ -14709,6 +14699,16 @@ var NormDashboard_default = ((opts) => {
           }
         }
       ),
+      /* @__PURE__ */ u2("h3", { children: "\u5206\u91CE\u5225" }),
+      /* @__PURE__ */ u2("ul", { class: "norm-field-list", children: fieldEntries.map(([name, v2]) => /* @__PURE__ */ u2("li", { children: /* @__PURE__ */ u2("a", { class: "norm-field-link", href: `tags/\u5206\u91CE/${encodeURIComponent(name)}`, children: [
+        /* @__PURE__ */ u2("span", { class: "norm-field-name", children: name }),
+        /* @__PURE__ */ u2("span", { class: "norm-field-count", children: v2.count })
+      ] }) })) }),
+      /* @__PURE__ */ u2("h3", { children: "\u8981\u7D20\u5225" }),
+      /* @__PURE__ */ u2("ul", { class: "norm-field-list", children: elementEntries.map(([name, count]) => /* @__PURE__ */ u2("li", { children: /* @__PURE__ */ u2("a", { class: "norm-field-link", href: `tags/\u8981\u7D20/${encodeURIComponent(name)}`, children: [
+        /* @__PURE__ */ u2("span", { class: "norm-field-name", children: name }),
+        /* @__PURE__ */ u2("span", { class: "norm-field-count", children: count })
+      ] }) })) }),
       /* @__PURE__ */ u2(
         "script",
         {
@@ -14725,7 +14725,7 @@ var NormDashboard_default = ((opts) => {
 });
 
 // src/components/styles/normIntro.scss
-var normIntro_default = '@charset "UTF-8";\n.norm-intro {\n  margin-bottom: 1.5rem;\n  border: 1px solid var(--lightgray);\n  border-radius: 6px;\n  padding: 0.75rem 1rem;\n}\n.norm-intro summary {\n  cursor: pointer;\n  font-weight: bold;\n  list-style: none;\n}\n.norm-intro summary::before {\n  content: "\u25B6";\n  display: inline-block;\n  margin-right: 0.5em;\n  transition: transform 0.2s ease;\n}\n.norm-intro[open] summary::before {\n  transform: rotate(90deg);\n}\n.norm-intro p {\n  margin: 0.75rem 0 0 0;\n  line-height: 1.7;\n}';
+var normIntro_default = '@charset "UTF-8";\n.norm-intro-top {\n  margin-bottom: 1.5rem;\n  border: 1px solid var(--lightgray);\n  border-radius: 6px;\n  padding: 0.75rem 1rem;\n}\n.norm-intro-top summary {\n  cursor: pointer;\n  font-weight: bold;\n  list-style: none;\n}\n.norm-intro-top summary::before {\n  content: "\u25B6";\n  display: inline-block;\n  margin-right: 0.5em;\n  transition: transform 0.2s ease;\n}\n.norm-intro-top[open] summary::before {\n  transform: rotate(90deg);\n}\n.norm-intro-top p {\n  margin: 0.75rem 0 0 0;\n  line-height: 1.7;\n}\n\n.norm-intro-bottom {\n  margin: 0 0 1rem 0;\n  opacity: 0.7;\n  font-size: 0.8rem;\n}\n.norm-intro-bottom summary {\n  cursor: pointer;\n  list-style: none;\n}\n.norm-intro-bottom summary::before {\n  content: "\u25B8";\n  display: inline-block;\n  margin-right: 0.4em;\n}\n.norm-intro-bottom p {\n  margin: 0.4rem 0 0 0;\n  line-height: 1.6;\n}';
 
 // src/components/shared/introContent.tsx
 function isTopPage(slug) {
@@ -14741,7 +14741,7 @@ function IntroBody() {
 
 // src/components/NormIntroTop.tsx
 var NormIntroTop_default = ((opts) => {
-  const { className = "norm-intro" } = opts ?? {};
+  const { className = "norm-intro-bottom" } = opts ?? {};
   const Component = ({ fileData, displayClass }) => {
     const slug = fileData.slug ?? "";
     if (!isTopPage(slug)) {
@@ -14758,7 +14758,7 @@ var NormIntroTop_default = ((opts) => {
 
 // src/components/NormIntroBottom.tsx
 var NormIntroBottom_default = ((opts) => {
-  const { className = "norm-intro" } = opts ?? {};
+  const { className = "norm-intro-bottom" } = opts ?? {};
   const Component = ({ fileData, displayClass }) => {
     const slug = fileData.slug ?? "";
     if (isTopPage(slug)) {

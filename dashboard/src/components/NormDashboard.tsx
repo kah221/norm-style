@@ -190,30 +190,6 @@ export default ((opts?: NormDashboardOptions) => {
         </div>
         <div id="norm-chart-container" class="norm-chart-container"></div>
 
-        <h3>分野別</h3>
-        <ul class="norm-field-list">
-        {fieldEntries.map(([name, v]) => (
-            <li>
-            <a class="norm-field-link" href={`tags/分野/${encodeURIComponent(name)}`}>
-                <span class="norm-field-name">{name}</span>
-                <span class="norm-field-count">{v.count}</span>
-            </a>
-            </li>
-        ))}
-        </ul>
-
-        <h3>要素別</h3>
-        <ul class="norm-field-list">
-        {elementEntries.map(([name, count]) => (
-            <li>
-            <a class="norm-field-link" href={`tags/要素/${encodeURIComponent(name)}`}>
-                <span class="norm-field-name">{name}</span>
-                <span class="norm-field-count">{count}</span>
-            </a>
-            </li>
-        ))}
-        </ul>
-
         {/*  */}
 
         <h3>新着↓↓</h3>
@@ -276,6 +252,34 @@ export default ((opts?: NormDashboardOptions) => {
         />
 
         {/*  */}
+
+
+
+        <h3>分野別</h3>
+        <ul class="norm-field-list">
+        {fieldEntries.map(([name, v]) => (
+            <li>
+            <a class="norm-field-link" href={`tags/分野/${encodeURIComponent(name)}`}>
+                <span class="norm-field-name">{name}</span>
+                <span class="norm-field-count">{v.count}</span>
+            </a>
+            </li>
+        ))}
+        </ul>
+
+        <h3>要素別</h3>
+        <ul class="norm-field-list">
+        {elementEntries.map(([name, count]) => (
+            <li>
+            <a class="norm-field-link" href={`tags/要素/${encodeURIComponent(name)}`}>
+                <span class="norm-field-name">{name}</span>
+                <span class="norm-field-count">{count}</span>
+            </a>
+            </li>
+        ))}
+        </ul>
+
+
 
         <script
           type="application/json"
