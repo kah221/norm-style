@@ -1,52 +1,47 @@
-// 先頭表示用（index・フォルダ・タグページ）
-.norm-intro-top {
-  margin-bottom: 1.5rem;
-  border: 1px solid var(--lightgray);
-  border-radius: 6px;
-  padding: 0.75rem 1rem;
-
-  summary {
-    cursor: pointer;
-    font-weight: bold;
-    list-style: none;
-
-    &::before {
-      content: "▶";
-      display: inline-block;
-      margin-right: 0.5em;
-      transition: transform 0.2s ease;
-    }
-  }
-
-  &[open] summary::before {
-    transform: rotate(90deg);
-  }
-
-  p {
-    margin: 0.75rem 0 0 0;
-    line-height: 1.7;
-  }
-}
-
-// 末尾表示用（単語・人物ページ）：公式footerと同じ見た目に合わせる
 .norm-intro-bottom {
   margin: 0 0 1rem 0;
   opacity: 0.7;
   font-size: 0.8rem;
 
-  summary {
-    cursor: pointer;
-    list-style: none;
+  details {
+    summary {
+      cursor: pointer;
+      list-style: none;
 
-    &::before {
-      content: "▸";
-      display: inline-block;
-      margin-right: 0.4em;
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      &::after {
+        content: "＞";
+        margin-left: 0.4em;
+      }
+    }
+
+    &[open] summary::after {
+      content: "V";
+    }
+
+    p {
+      margin: 0.4rem 0 0 0;
+      line-height: 1.6;
     }
   }
 
-  p {
-    margin: 0.4rem 0 0 0;
-    line-height: 1.6;
+  .norm-intro-credit {
+    list-style: none;
+    margin: 0.5rem 0 0 0;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 }

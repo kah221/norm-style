@@ -14725,7 +14725,7 @@ var NormDashboard_default = ((opts) => {
 });
 
 // src/components/styles/normIntro.scss
-var normIntro_default = '@charset "UTF-8";\n.norm-intro-top {\n  margin-bottom: 1.5rem;\n  border: 1px solid var(--lightgray);\n  border-radius: 6px;\n  padding: 0.75rem 1rem;\n}\n.norm-intro-top summary {\n  cursor: pointer;\n  font-weight: bold;\n  list-style: none;\n}\n.norm-intro-top summary::before {\n  content: "\u25B6";\n  display: inline-block;\n  margin-right: 0.5em;\n  transition: transform 0.2s ease;\n}\n.norm-intro-top[open] summary::before {\n  transform: rotate(90deg);\n}\n.norm-intro-top p {\n  margin: 0.75rem 0 0 0;\n  line-height: 1.7;\n}\n\n.norm-intro-bottom {\n  margin: 0 0 1rem 0;\n  opacity: 0.7;\n  font-size: 0.8rem;\n}\n.norm-intro-bottom summary {\n  cursor: pointer;\n  list-style: none;\n}\n.norm-intro-bottom summary::before {\n  content: "\u25B8";\n  display: inline-block;\n  margin-right: 0.4em;\n}\n.norm-intro-bottom p {\n  margin: 0.4rem 0 0 0;\n  line-height: 1.6;\n}';
+var normIntro_default = '@charset "UTF-8";\n.norm-intro-bottom {\n  margin: 0 0 1rem 0;\n  opacity: 0.7;\n  font-size: 0.8rem;\n}\n.norm-intro-bottom details summary {\n  cursor: pointer;\n  list-style: none;\n}\n.norm-intro-bottom details summary::-webkit-details-marker {\n  display: none;\n}\n.norm-intro-bottom details summary::after {\n  content: "\uFF1E";\n  margin-left: 0.4em;\n}\n.norm-intro-bottom details[open] summary::after {\n  content: "V";\n}\n.norm-intro-bottom details p {\n  margin: 0.4rem 0 0 0;\n  line-height: 1.6;\n}\n.norm-intro-bottom .norm-intro-credit {\n  list-style: none;\n  margin: 0.5rem 0 0 0;\n  padding: 0;\n  display: flex;\n  gap: 1rem;\n}\n.norm-intro-bottom .norm-intro-credit a {\n  color: inherit;\n  text-decoration: none;\n}\n.norm-intro-bottom .norm-intro-credit a:hover {\n  text-decoration: underline;\n}';
 
 // src/components/shared/introContent.tsx
 function isTopPage(slug) {
@@ -14764,9 +14764,23 @@ var NormIntroBottom_default = ((opts) => {
     if (isTopPage(slug)) {
       return null;
     }
-    return /* @__PURE__ */ u2("details", { class: classNames(displayClass, className), children: [
-      /* @__PURE__ */ u2("summary", { children: "\u3053\u306E\u30DA\u30FC\u30B8\u306B\u3064\u3044\u3066" }),
-      /* @__PURE__ */ u2(IntroBody, {})
+    return /* @__PURE__ */ u2("div", { class: classNames(displayClass, className), children: [
+      /* @__PURE__ */ u2("details", { children: [
+        /* @__PURE__ */ u2("summary", { children: "\u3053\u306E\u30DA\u30FC\u30B8\u306B\u3064\u3044\u3066" }),
+        /* @__PURE__ */ u2(IntroBody, {})
+      ] }),
+      /* @__PURE__ */ u2("ul", { class: "norm-intro-credit", children: [
+        /* @__PURE__ */ u2("li", { children: [
+          "\u5236\u4F5C\uFF1A",
+          /* @__PURE__ */ u2("a", { href: "http://discordapp.com/users/473663926538600448", children: "kah221" })
+        ] }),
+        /* @__PURE__ */ u2("li", { children: [
+          "GitHub\uFF1A",
+          /* @__PURE__ */ u2("a", { href: "https://github.com/kah221/norm", children: "norm" }),
+          "\uFF0C",
+          /* @__PURE__ */ u2("a", { href: "https://github.com/kah221/norm-style", children: "norm-style" })
+        ] })
+      ] })
     ] });
   };
   Component.css = normIntro_default;

@@ -21,10 +21,20 @@ export default ((opts?: NormIntroOptions) => {
     }
 
     return (
-      <details class={classNames(displayClass, className)}>
-        <summary>このページについて</summary>
-        <IntroBody />
-      </details>
+      <div class={classNames(displayClass, className)}>
+        <details>
+          <summary>このページについて</summary>
+          <IntroBody />
+        </details>
+        <ul class="norm-intro-credit">
+          <li>
+            制作：<a href="http://discordapp.com/users/473663926538600448">kah221</a>
+          </li>
+          <li>
+            GitHub：<a href="https://github.com/kah221/norm">norm</a>，<a href="https://github.com/kah221/norm-style">norm-style</a>
+          </li>
+        </ul>
+      </div>
     );
   };
 
