@@ -104,6 +104,16 @@
         "displayName": "norm Dashboard",
         "defaultPosition": "beforeBody",
         "defaultPriority": 50
+      },
+      "NormIntroTop": {
+        "displayName": "norm Intro (Top)",
+        "defaultPosition": "beforeBody",
+        "defaultPriority": 12
+      },
+      "NormIntroBottom": {
+        "displayName": "norm Intro (Bottom)",
+        "defaultPosition": "afterBody",
+        "defaultPriority": 10
       }
     }
   },

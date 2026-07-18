@@ -4,6 +4,11 @@ export { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps, Stri
 interface NormDashboardOptions {
     className?: string;
 }
-declare const _default: (opts?: NormDashboardOptions) => QuartzComponent;
+declare const _default$1: (opts?: NormDashboardOptions) => QuartzComponent;
 
-export { _default as NormDashboard, type NormDashboardOptions };
+interface NormIntroOptions {
+    className?: string;
+}
+declare const _default: (opts?: NormIntroOptions) => QuartzComponent;
+
+export { _default$1 as NormDashboard, type NormDashboardOptions, _default as NormIntro, type NormIntroOptions };

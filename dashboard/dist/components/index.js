@@ -14724,6 +14724,55 @@ var NormDashboard_default = ((opts) => {
   return Component;
 });
 
-export { NormDashboard_default as NormDashboard };
+// src/components/styles/normIntro.scss
+var normIntro_default = '@charset "UTF-8";\n.norm-intro {\n  margin-bottom: 1.5rem;\n  border: 1px solid var(--lightgray);\n  border-radius: 6px;\n  padding: 0.75rem 1rem;\n}\n.norm-intro summary {\n  cursor: pointer;\n  font-weight: bold;\n  list-style: none;\n}\n.norm-intro summary::before {\n  content: "\u25B6";\n  display: inline-block;\n  margin-right: 0.5em;\n  transition: transform 0.2s ease;\n}\n.norm-intro[open] summary::before {\n  transform: rotate(90deg);\n}\n.norm-intro p {\n  margin: 0.75rem 0 0 0;\n  line-height: 1.7;\n}';
+
+// src/components/shared/introContent.tsx
+function isTopPage(slug) {
+  return slug === "index" || slug.endsWith("/index") || slug.startsWith("tags/") || slug === "tags";
+}
+function IntroBody() {
+  return /* @__PURE__ */ u2("p", { children: [
+    "\u5358\u8A9E\u306E\u610F\u5473\u3068\u76F8\u4E92\u95A2\u4FC2\u306E\u7406\u89E3\u306E\u305F\u3081\u306E\u500B\u4EBA\u7528\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8",
+    /* @__PURE__ */ u2("br", {}),
+    "\u624B\u5143\u306E\u677F\u66F8\u7B49\u304B\u3089\u30D4\u30C3\u30AF\u30A2\u30C3\u30D7\u307E\u305F\u306F\u65B0\u305F\u306B\u77E5\u3063\u305F\u5358\u8A9E\u3092\u8ABF\u3079\uFF0C1\u30DA\u30FC\u30B81\u5358\u8A9E\u306B\u307E\u3068\u3081\u3066\u3044\u304D\u307E\u3059\uFF0E"
+  ] });
+}
+
+// src/components/NormIntroTop.tsx
+var NormIntroTop_default = ((opts) => {
+  const { className = "norm-intro" } = opts ?? {};
+  const Component = ({ fileData, displayClass }) => {
+    const slug = fileData.slug ?? "";
+    if (!isTopPage(slug)) {
+      return null;
+    }
+    return /* @__PURE__ */ u2("details", { class: classNames(displayClass, className), children: [
+      /* @__PURE__ */ u2("summary", { children: "\u3053\u306E\u30DA\u30FC\u30B8\u306B\u3064\u3044\u3066" }),
+      /* @__PURE__ */ u2(IntroBody, {})
+    ] });
+  };
+  Component.css = normIntro_default;
+  return Component;
+});
+
+// src/components/NormIntroBottom.tsx
+var NormIntroBottom_default = ((opts) => {
+  const { className = "norm-intro" } = opts ?? {};
+  const Component = ({ fileData, displayClass }) => {
+    const slug = fileData.slug ?? "";
+    if (isTopPage(slug)) {
+      return null;
+    }
+    return /* @__PURE__ */ u2("details", { class: classNames(displayClass, className), children: [
+      /* @__PURE__ */ u2("summary", { children: "\u3053\u306E\u30DA\u30FC\u30B8\u306B\u3064\u3044\u3066" }),
+      /* @__PURE__ */ u2(IntroBody, {})
+    ] });
+  };
+  Component.css = normIntro_default;
+  return Component;
+});
+
+export { NormDashboard_default as NormDashboard, NormIntroBottom_default as NormIntroBottom, NormIntroTop_default as NormIntroTop };
 //# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map
