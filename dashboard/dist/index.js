@@ -14630,7 +14630,22 @@ var NormDashboard_default = ((opts) => {
       byElement,
       timeline: Object.entries(timelineMap).sort(([a2], [b]) => a2.localeCompare(b)).map(([date, count]) => ({ date, count }))
     };
-    const fieldEntries = Object.entries(byField).sort((a2, b) => b[1].count - a2[1].count);
+    const fieldCards = [];
+    for (const [name, v2] of Object.entries(byField)) {
+      fieldCards.push({
+        name,
+        count: v2.count,
+        href: `tags/\u5206\u91CE/${encodeURIComponent(name)}`
+      });
+      for (const [subName, subCount] of Object.entries(v2.sub)) {
+        fieldCards.push({
+          name: subName,
+          count: subCount,
+          href: `tags/\u5206\u91CE/${encodeURIComponent(name)}/${encodeURIComponent(subName)}`
+        });
+      }
+    }
+    fieldCards.sort((a2, b) => b.count - a2.count);
     const elementEntries = Object.entries(byElement).sort((a2, b) => b[1] - a2[1]);
     return /* @__PURE__ */ u2("div", { class: classNames(className), children: [
       /* @__PURE__ */ u2("h2", { children: "\u7D71\u8A08" }),
@@ -14700,9 +14715,9 @@ var NormDashboard_default = ((opts) => {
         }
       ),
       /* @__PURE__ */ u2("h3", { children: "\u5206\u91CE\u5225" }),
-      /* @__PURE__ */ u2("ul", { class: "norm-field-list", children: fieldEntries.map(([name, v2]) => /* @__PURE__ */ u2("li", { children: /* @__PURE__ */ u2("a", { class: "norm-field-link", href: `tags/\u5206\u91CE/${encodeURIComponent(name)}`, children: [
-        /* @__PURE__ */ u2("span", { class: "norm-field-name", children: name }),
-        /* @__PURE__ */ u2("span", { class: "norm-field-count", children: v2.count })
+      /* @__PURE__ */ u2("ul", { class: "norm-field-list", children: fieldCards.map((card) => /* @__PURE__ */ u2("li", { children: /* @__PURE__ */ u2("a", { class: "norm-field-link", href: card.href, children: [
+        /* @__PURE__ */ u2("span", { class: "norm-field-name", children: card.name }),
+        /* @__PURE__ */ u2("span", { class: "norm-field-count", children: card.count })
       ] }) })) }),
       /* @__PURE__ */ u2("h3", { children: "\u8981\u7D20\u5225" }),
       /* @__PURE__ */ u2("ul", { class: "norm-field-list", children: elementEntries.map(([name, count]) => /* @__PURE__ */ u2("li", { children: /* @__PURE__ */ u2("a", { class: "norm-field-link", href: `tags/\u8981\u7D20/${encodeURIComponent(name)}`, children: [

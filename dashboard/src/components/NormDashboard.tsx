@@ -163,7 +163,25 @@ export default ((opts?: NormDashboardOptions) => {
         .map(([date, count]) => ({ date, count })),
     };
 
-    const fieldEntries = Object.entries(byField).sort((a, b) => b[1].count - a[1].count);
+    type FieldCard = { name: string; count: number; href: string };
+
+    const fieldCards: FieldCard[] = [];
+    for (const [name, v] of Object.entries(byField)) {
+      fieldCards.push({
+        name,
+        count: v.count,
+        href: `tags/分野/${encodeURIComponent(name)}`,
+      });
+      for (const [subName, subCount] of Object.entries(v.sub)) {
+        fieldCards.push({
+          name: subName,
+          count: subCount,
+          href: `tags/分野/${encodeURIComponent(name)}/${encodeURIComponent(subName)}`,
+        });
+      }
+    }
+    fieldCards.sort((a, b) => b.count - a.count);
+
     const elementEntries = Object.entries(byElement).sort((a, b) => b[1] - a[1]);
 
     return (
@@ -257,11 +275,11 @@ export default ((opts?: NormDashboardOptions) => {
 
         <h3>分野別</h3>
         <ul class="norm-field-list">
-        {fieldEntries.map(([name, v]) => (
+        {fieldCards.map((card) => (
             <li>
-            <a class="norm-field-link" href={`tags/分野/${encodeURIComponent(name)}`}>
-                <span class="norm-field-name">{name}</span>
-                <span class="norm-field-count">{v.count}</span>
+            <a class="norm-field-link" href={card.href}>
+                <span class="norm-field-name">{card.name}</span>
+                <span class="norm-field-count">{card.count}</span>
             </a>
             </li>
         ))}
