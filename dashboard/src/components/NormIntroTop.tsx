@@ -12,7 +12,7 @@ export interface NormIntroOptions {
 }
 
 export default ((opts?: NormIntroOptions) => {
-  const { className = "norm-intro-bottom" } = opts ?? {};
+  const { className = "norm-intro-top" } = opts ?? {};
 
   const Component: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
     const slug = (fileData.slug as string) ?? "";

@@ -14743,7 +14743,7 @@ function IntroBody() {
 
 // src/components/NormIntroTop.tsx
 var NormIntroTop_default = ((opts) => {
-  const { className = "norm-intro-bottom" } = opts ?? {};
+  const { className = "norm-intro-top" } = opts ?? {};
   const Component = ({ fileData, displayClass }) => {
     const slug = fileData.slug ?? "";
     if (!isTopPage(slug)) {
