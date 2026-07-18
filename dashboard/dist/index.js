@@ -14725,7 +14725,7 @@ var NormDashboard_default = ((opts) => {
 });
 
 // src/components/styles/normIntro.scss
-var normIntro_default = '@charset "UTF-8";\n.norm-intro-bottom {\n  margin: 2rem 0 0.25rem 0;\n  opacity: 0.7;\n  font-size: 0.8rem;\n}\n.norm-intro-bottom details summary {\n  cursor: pointer;\n  list-style: none;\n}\n.norm-intro-bottom details summary::-webkit-details-marker {\n  display: none;\n}\n.norm-intro-bottom details summary::after {\n  content: "\uFF1E";\n  margin-left: 0.4em;\n}\n.norm-intro-bottom details[open] summary::after {\n  content: "V";\n}\n.norm-intro-bottom details p {\n  margin: 0.4rem 0 0 0;\n  line-height: 1.6;\n}\n.norm-intro-bottom .norm-intro-credit {\n  list-style: none;\n  margin: 0.5rem 0 0 0;\n  padding: 0;\n  display: flex;\n  gap: 1rem;\n}\n.norm-intro-bottom .norm-intro-credit a {\n  text-decoration: none;\n}\n.norm-intro-bottom .norm-intro-credit a:hover {\n  text-decoration: underline;\n}';
+var normIntro_default = '@charset "UTF-8";\n.norm-intro-bottom {\n  margin: 3rem 0 0 0;\n  opacity: 0.7;\n  font-size: 0.8rem;\n}\n.norm-intro-bottom details summary {\n  cursor: pointer;\n  list-style: none;\n}\n.norm-intro-bottom details summary::-webkit-details-marker {\n  display: none;\n}\n.norm-intro-bottom details summary::after {\n  content: "\uFF1E";\n  margin-left: 0.4em;\n}\n.norm-intro-bottom details[open] summary::after {\n  content: "V";\n}\n.norm-intro-bottom details p {\n  margin: 0.4rem 0 0 0;\n  line-height: 1.6;\n}\n.norm-intro-bottom .norm-intro-credit {\n  list-style: none;\n  margin: 0.5rem 0 0 0;\n  padding: 0;\n  display: flex;\n  gap: 1rem;\n}\n.norm-intro-bottom .norm-intro-credit a {\n  text-decoration: none;\n}\n.norm-intro-bottom .norm-intro-credit a:hover {\n  text-decoration: underline;\n}';
 
 // src/components/shared/introContent.tsx
 function isTopPage(slug) {
@@ -14735,7 +14735,9 @@ function IntroBody() {
   return /* @__PURE__ */ u2("p", { children: [
     "\u5358\u8A9E\u306E\u610F\u5473\u3068\u76F8\u4E92\u95A2\u4FC2\u306E\u7406\u89E3\u306E\u305F\u3081\u306E\u500B\u4EBA\u7528\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8",
     /* @__PURE__ */ u2("br", {}),
-    "\u624B\u5143\u306E\u677F\u66F8\u7B49\u304B\u3089\u30D4\u30C3\u30AF\u30A2\u30C3\u30D7\u307E\u305F\u306F\u65B0\u305F\u306B\u77E5\u3063\u305F\u5358\u8A9E\u3092\u8ABF\u3079\uFF0C1\u30DA\u30FC\u30B81\u5358\u8A9E\u306B\u307E\u3068\u3081\u3066\u3044\u304D\u307E\u3059\uFF0E"
+    "\u624B\u5143\u306E\u677F\u66F8\u7B49\u304B\u3089\u30D4\u30C3\u30AF\u30A2\u30C3\u30D7\u307E\u305F\u306F\u65B0\u305F\u306B\u77E5\u3063\u305F\u5358\u8A9E\u3092\u8ABF\u3079\uFF0C1\u30DA\u30FC\u30B81\u5358\u8A9E\u306B\u307E\u3068\u3081\u308B\uFF0E",
+    /* @__PURE__ */ u2("br", {}),
+    "\u4ECA\u5F8C\uFF0C\u8907\u6570\u5358\u8A9E\u304C\u95A2\u308F\u308B\u30C8\u30D4\u30C3\u30AF\u306A\u3069\u306F\u300C_Note\u300D\u30DA\u30FC\u30B8\u3068\u3057\u3066\u6E96\u5099\u304C\u3067\u304D\u6B21\u7B2C\u516C\u958B\u4E88\u5B9A..."
   ] });
 }
 
